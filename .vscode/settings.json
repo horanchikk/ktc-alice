@@ -1,0 +1,13 @@
+{
+    "runOnSave.statusMessageTimeout": 3000,
+    "runOnSave.commands": [
+        {
+            "match": ".*\\.js$",
+            "notMatch": "[\\\\\\/]_[^\\\\\\/]*\\.js$",
+            "command": "clear && node index.js && vercel --prod",
+            "runIn": "terminal",
+            "runningStatusMessage": "Deploying ${fileBasename}",
+            "finishStatusMessage": "${fileBasename} deployed"
+        },
+    ]
+}

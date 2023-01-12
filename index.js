@@ -3,6 +3,7 @@ const { reply } = require("alice-renderer");
 const { filter } = require("fuzzaldrin");
 const { default: axios } = require("axios");
 const moment = require("moment");
+require('moment/locale/ru')
 
 // helpers
 const { wordToNumber } = require("./helpers/wordToNumber");
@@ -13,6 +14,7 @@ module.exports = async (req, res) => {
 
   let text =
     "Для того, чтобы узнать расписание своей группы на текущую неделю, скажите: расписание, и название своей группы.";
+
   const saying = request["original_utterance"];
 
   let currentGroups = await axios
@@ -34,8 +36,6 @@ module.exports = async (req, res) => {
     text =
       "Для того, чтобы узнать расписание своей группы на текущую неделю, скажите: расписание, и название своей группы.";
   } else if (saying.slice(0, 10).toLowerCase() === "расписание") {
-    // todo: расписание на сегодня, завтра
-
     let when = null;
     let sayingSplitted = saying.split(" ");
 
@@ -82,8 +82,6 @@ module.exports = async (req, res) => {
         .then((res) => {
           let result = undefined;
 
-          console.log(when);
-
           if (when === 2) {
             // на неделю
             let days = [];
@@ -119,9 +117,9 @@ module.exports = async (req, res) => {
                 for (let lesson of day.lessons) {
                   lessons.push(lesson.title);
                 }
-                result = `Сегодня будет ${day.lessons.length} ${lessonsPhrase(
+                result = lessons.length > 0 ? `Сегодня будет ${day.lessons.length} ${lessonsPhrase(
                   day
-                )}: ${lessons.join(", ")}. `;
+                )}: ${lessons.join(", ")}. ` : 'Сегодня пар не будет'
               }
             }
           } else if (when === 1) {
@@ -131,19 +129,20 @@ module.exports = async (req, res) => {
               let lessons = [];
 
               if (
-                day.lessons.length > 0 &&
                 day.title.split(", ")[0].toLowerCase() ===
                   moment(new Date()).add(1, "days").format("D MMMM")
               ) {
                 for (let lesson of day.lessons) {
                   lessons.push(lesson.title);
                 }
-                result = `Завтра будет ${day.lessons.length} ${lessonsPhrase(
+
+                result = lessons.length > 0 ? `Завтра будет ${day.lessons.length} ${lessonsPhrase(
                   day
-                )}: ${lessons.join(", ")}. `;
+                )}: ${lessons.join(", ")}. ` : `Завтра пар не будет`
               }
             }
           } else {
+            // todo: убрать расписание прошедших дней
             let days = [];
             for (let day of res.data.days) {
               if (day.lessons.length > 0) {
@@ -183,3 +182,5 @@ module.exports = async (req, res) => {
     })
   );
 };
+
+// todo: завтра будет столько то пар матеши....
