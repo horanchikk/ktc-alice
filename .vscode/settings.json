@@ -4,10 +4,10 @@
         {
             "match": ".*\\.js$",
             "notMatch": "[\\\\\\/]_[^\\\\\\/]*\\.js$",
-            "command": "clear && node index.js && vercel --prod",
+            "command": "clear && node index.js && vercel --prod && git add . && git commit -m 'autosave' && git push",
             "runIn": "terminal",
-            "runningStatusMessage": "Deploying ${fileBasename}",
-            "finishStatusMessage": "${fileBasename} deployed"
+            "runningStatusMessage": "Deploying ${fileBasename}....",
+            "finishStatusMessage": "${fileBasename} deployed",
         },
     ]
 }
