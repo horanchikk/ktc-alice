@@ -8,8 +8,8 @@ const moment = require("moment");
 const { wordToNumber } = require("./helpers/wordToNumber");
 const { lessonsPhrase, dayPhrase } = require("./helpers/phrases");
 
-module.exports = async (event) => {
-  const { version, session, request } = await json(event);
+module.exports = async (req, res) => {
+  const { version, session, request } = await json(req);
 
   let text =
     "Для того, чтобы узнать расписание своей группы на текущую неделю, скажите: расписание, и название своей группы.";
