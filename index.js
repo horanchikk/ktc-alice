@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
   const { version, session, request } = await json(req);
 
   let text =
-    "Для того, чтобы узнать расписание своей группы, скажите: расписание, название своей группы.";
+    "Для того, чтобы узнать расписание своей группы, скажите: расписание и название своей группы.";
 
   const saying = request["original_utterance"];
 
