@@ -9,6 +9,15 @@ require('moment/locale/ru')
 const { wordToNumber } = require("./helpers/wordToNumber");
 const { lessonsPhrase, dayPhrase } = require("./helpers/phrases");
 
+
+/*        TODO
+
+  - завтра будет столько то пар матеши....
+  - убрать расписание прошедших дней
+  - отдельно расписание для преподавателей и отдельно для учеников
+
+*/
+
 module.exports = async (req, res) => {
   const { version, session, request } = await json(req);
 
@@ -142,7 +151,6 @@ module.exports = async (req, res) => {
               }
             }
           } else {
-            // todo: убрать расписание прошедших дней
             let days = [];
             for (let day of res.data.days) {
               if (day.lessons.length > 0) {
@@ -182,5 +190,3 @@ module.exports = async (req, res) => {
     })
   );
 };
-
-// todo: завтра будет столько то пар матеши....
