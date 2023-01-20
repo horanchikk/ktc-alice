@@ -3,17 +3,16 @@ const { reply } = require("alice-renderer");
 const { filter } = require("fuzzaldrin");
 const { default: axios } = require("axios");
 const moment = require("moment");
-require('moment/locale/ru')
+require("moment/locale/ru");
 
 // helpers
 const { wordToNumber } = require("./helpers/wordToNumber");
 const { lessonsPhrase, dayPhrase } = require("./helpers/phrases");
 
-
 /*        TODO
 
   - завтра будет столько то пар матеши....
-  - отдельно расписание для преподавателей и отдельно для учеников
+  - отдельно расписание для преподавателей и отдельно для учеников...
 
 */
 
@@ -125,9 +124,14 @@ module.exports = async (req, res) => {
                 for (let lesson of day.lessons) {
                   lessons.push(lesson.title);
                 }
-                result = lessons.length > 0 ? `Сегодня будет ${day.lessons.length} ${lessonsPhrase(
-                  day
-                )}: ${lessons.join(", ")}. ` : 'Сегодня пар не будет'
+                result =
+                  lessons.length > 0
+                    ? `Сегодня будет ${day.lessons.length} ${lessonsPhrase(
+                        day
+                      )}: ${lessons.join(", ")}. Приходить к ${
+                        day.lessons[0].time[1]
+                      }`
+                    : "Сегодня пар не будет";
               }
             }
           } else if (when === 1) {
@@ -138,15 +142,20 @@ module.exports = async (req, res) => {
 
               if (
                 day.title.split(", ")[0].toLowerCase() ===
-                  moment(new Date()).add(1, "days").format("D MMMM")
+                moment(new Date()).add(1, "days").format("D MMMM")
               ) {
                 for (let lesson of day.lessons) {
                   lessons.push(lesson.title);
                 }
 
-                result = lessons.length > 0 ? `Завтра будет ${day.lessons.length} ${lessonsPhrase(
-                  day
-                )}: ${lessons.join(", ")}. ` : `Завтра пар не будет`
+                result =
+                  lessons.length > 0
+                    ? `Завтра будет ${day.lessons.length} ${lessonsPhrase(
+                        day
+                      )}: ${lessons.join(", ")}. Приходить к ${
+                        day.lessons[0].time[1]
+                      }`
+                    : `Завтра пар не будет`;
               }
             }
           } else {
